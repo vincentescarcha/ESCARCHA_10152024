@@ -67,6 +67,7 @@ namespace FileProcessor
 
             // Middlewares
             app.UseMiddleware<ErrorHandlingMiddleware>();
+            app.UseMiddleware<ApiKeyMiddleware>();
 
 
             // Configure the HTTP request pipeline.

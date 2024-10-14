@@ -6,7 +6,8 @@
         {
             public const string UnexpectedError = "An unexpected error occurred.";
             public const string ApiKeyGenerationError = "An error occurred while generating the API key.";
-            public const string ApiKeyMissing = "An error occurred while generating the API key.";
+            public const string NoApiKeyProvided = "API Key not provided.";
+            public const string InvalidApiKey = "Unauthorized access - invalid API Key.";
 
             public const string NoFileUploaded = "No file uploaded.";
             public const string FileUploadedError = "Error occurred while processing the file.";

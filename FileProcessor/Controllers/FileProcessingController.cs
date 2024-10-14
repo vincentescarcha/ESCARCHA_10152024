@@ -7,6 +7,8 @@ namespace FileProcessor.Controllers
 {
     [ApiController]
     [Route("api/files")]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public class FileProcessingController : ControllerBase
     {
         private readonly ILogger<FileProcessingController> _logger;
@@ -18,6 +20,12 @@ namespace FileProcessor.Controllers
             _fileProcessingService = fileProcessingService;
         }
 
+        /// <summary>
+        /// Upload either a CSV or JSON file for processing. 
+        /// This automatically detects the file type and routes the request to the appropriate processor.
+        /// </summary>
+        /// <param name="request">The file to be processed (supports CSV and JSON)</param>
+        /// <param name="query">An optional query string that specifies the operation to perform on the uploaded data</param>
         [HttpPost("upload")]
         [ProducesResponseType(typeof(FileProcessingResult), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]
@@ -51,6 +59,17 @@ namespace FileProcessor.Controllers
                 };
                 return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
             }
+        }
+
+        /// <summary>
+        /// Returns the information about previously processed files including their filenames, sizes, and processing times
+        /// </summary>
+        [HttpGet("report")]
+        [ProducesResponseType(typeof(List<FileInfoDto>), StatusCodes.Status200OK)]
+        public IActionResult GetProcessedFilesReport()
+        {
+            var files = _fileProcessingService.GetProcessedFiles();
+            return Ok(files);
         }
     }
 }

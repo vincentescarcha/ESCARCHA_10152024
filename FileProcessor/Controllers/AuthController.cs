@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 namespace FileProcessor.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     public class AuthController : ControllerBase
     {
         private readonly ApiKeyService _apiKeyService;
