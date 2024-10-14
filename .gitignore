@@ -1,0 +1,60 @@
+# Ignore Visual Studio temporary files, build results, and logs.
+*.log
+*.vspscc
+*.vssscc
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Auto-generated files
+Generated/
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa]rm/
+[Aa]rm64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# DotNet-specific
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Visual Studio folder and all its subfolders and files
+.vs/
+.vs/*
+
+# OS-specific files
+*.DS_Store
+Thumbs.db
+
+# NuGet
+packages/
+*.nupkg
+*.snupkg
+.nuget/
+
+# Resharper settings
+_ReSharper*/
+resharper.xml
+
+# Client-side files
+node_modules/
+dist/
+
+# Visual Studio Code files
+.vscode/
+.history/
