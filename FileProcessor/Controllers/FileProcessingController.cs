@@ -22,11 +22,11 @@ namespace FileProcessor.Controllers
         [ProducesResponseType(typeof(FileProcessingResult), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(Error), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> UploadFile([FromForm]FileProcessingRequest request, [FromQuery] string filter = null)
+        public async Task<IActionResult> UploadFile([FromForm]FileProcessingRequest request, [FromQuery] string query = null)
         {
             try
             {
-                var result = await _fileProcessingService.ProcessFileAsync(request.File, filter);
+                var result = await _fileProcessingService.ProcessFileAsync(request.File, query);
                 return Ok(result);
             }
             catch (ArgumentException ex)

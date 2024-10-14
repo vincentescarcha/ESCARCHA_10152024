@@ -22,7 +22,7 @@ namespace FileProcessor.Services
             _serviceProvider = serviceProvider;
         }
 
-        public async Task<FileProcessingResult> ProcessFileAsync(IFormFile file, string filter)
+        public async Task<FileProcessingResult> ProcessFileAsync(IFormFile file, string query)
         {
             if (file == null || file.Length == 0)
             {
@@ -52,7 +52,7 @@ namespace FileProcessor.Services
             }
 
             using var fileStream = file.OpenReadStream();
-            var result = await processor.ProcessFileAsync(fileStream, filter);
+            var result = await processor.ProcessFileAsync(fileStream, query);
 
             return result;
         }

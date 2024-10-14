@@ -5,28 +5,28 @@ namespace FileProcessor.Services
 {
     public class JsonFileProcessor : IFileProcessor
     {
-        public async Task<FileProcessingResult> ProcessFileAsync(Stream fileStream, string filter = null)
+        public async Task<FileProcessingResult> ProcessFileAsync(Stream fileStream, string query = null)
         {
             var result = new FileProcessingResult();
             List<Dictionary<string, object>> dynamicDataList = await ParseJsonFile(fileStream);
             List<Dictionary<string, object>> filteredData = new();
 
             // Validate and apply filtering if provided
-            if (!string.IsNullOrEmpty(filter))
+            if (!string.IsNullOrEmpty(query))
             {
-                var filterErrors = ValidateFilter(dynamicDataList, filter);
+                var filterErrors = ValidateFilter(dynamicDataList, query);
                 if (filterErrors.Count > 0)
                 {
                     result.Errors.AddRange(filterErrors);
                 }
                 else
                 {
-                    filteredData = FilterData(dynamicDataList, filter);
+                    filteredData = FilterData(dynamicDataList, query);
                 }
             }
             else
             {
-                result.Warnings.Add("No filter provided.");
+                result.Warnings.Add(Constants.Messages.NoQueryProvided);
                 filteredData = dynamicDataList;
             }
 
