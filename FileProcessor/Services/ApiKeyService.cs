@@ -3,7 +3,7 @@
     public class ApiKeyService
     {
         // Store api keys in-memory instead of database
-        private readonly Dictionary<string, DateTime> _apiKeys = new Dictionary<string, DateTime>();
+        private readonly Dictionary<string, DateTime> _apiKeys = new();
 
         public string GenerateApiKey()
         {

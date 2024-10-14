@@ -30,7 +30,6 @@ namespace FileProcessor.Controllers
         {
             try
             {
-                throw new Exception();
                 var apiKey = _apiKeyService.GenerateApiKey();
                 var response = new ApiKeyResponse
                 {
@@ -42,12 +41,12 @@ namespace FileProcessor.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, Constants.ErrorMessages.ApiKeyGenerationError);
+                _logger.LogError(ex, Constants.Messages.ApiKeyGenerationError);
 
                 var errorResponse = new Error
                 {
                     StatusCode = StatusCodes.Status500InternalServerError,
-                    Message = Constants.ErrorMessages.ApiKeyGenerationError,
+                    Message = Constants.Messages.ApiKeyGenerationError,
                     Details = ex.Message 
                 };
                 return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);

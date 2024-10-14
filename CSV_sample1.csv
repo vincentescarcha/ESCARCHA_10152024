@@ -1,0 +1,6 @@
+ProductID,ProductName,Category,Price,Quantity
+1,Apple,Fruit,1.20,50
+2,Banana,Fruit,0.50,100
+3,Carrot,Vegetable,0.80,200
+4,Detergent,Household,5.00,25
+5,Toothpaste,Household,2.50,30

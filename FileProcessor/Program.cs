@@ -1,6 +1,7 @@
 
 using FileProcessor.Middlewares;
 using FileProcessor.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 
@@ -14,6 +15,9 @@ namespace FileProcessor
 
             // Add services to the container.
             builder.Services.AddSingleton<ApiKeyService>();
+            builder.Services.AddSingleton<FileProcessingService>();
+            builder.Services.AddTransient<CsvFileProcessor>();
+            builder.Services.AddTransient<JsonFileProcessor>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -48,6 +52,11 @@ namespace FileProcessor
                         new List<string>()
                     }
                 });
+            });
+
+            builder.Services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
             });
 
             // Add console logging

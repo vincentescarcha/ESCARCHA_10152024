@@ -23,7 +23,7 @@ namespace FileProcessor.Middlewares
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, Constants.ErrorMessages.UnexpectedError);
+                _logger.LogError(ex, Constants.Messages.UnexpectedError);
 
                 // Handle the exception
                 await HandleExceptionAsync(context, ex);
@@ -35,7 +35,7 @@ namespace FileProcessor.Middlewares
             var errorResponse = new Error
             {
                 StatusCode = StatusCodes.Status500InternalServerError,
-                Message = Constants.ErrorMessages.UnexpectedError,
+                Message = Constants.Messages.UnexpectedError,
                 Details = exception.Message 
             };
 

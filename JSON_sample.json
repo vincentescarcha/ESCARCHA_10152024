@@ -1,0 +1,26 @@
+[
+  {
+    "UserID": 1,
+    "UserName": "john_doe",
+    "Role": "Admin",
+    "LastLogin": "2024-10-10"
+  },
+  {
+    "UserID": 2,
+    "UserName": "jane_doe",
+    "Role": "User",
+    "LastLogin": "2024-10-11"
+  },
+  {
+    "UserID": 3,
+    "UserName": "alice_smith",
+    "Role": "User",
+    "LastLogin": "2024-10-12"
+  },
+  {
+    "UserID": 4,
+    "UserName": "bob_jones",
+    "Role": "Admin",
+    "LastLogin": "2024-10-09"
+  }
+]
