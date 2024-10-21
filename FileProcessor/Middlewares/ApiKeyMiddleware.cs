@@ -5,20 +5,19 @@ namespace FileProcessor.Middlewares
     public class ApiKeyMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly ApiKeyService _apiKeyService;
         private readonly List<string> _protectedUrls = new List<string>
         {
             "/api/files",
         };
 
-        public ApiKeyMiddleware(RequestDelegate next, ApiKeyService apiKeyService)
+        public ApiKeyMiddleware(RequestDelegate next)
         {
             _next = next;
-            _apiKeyService = apiKeyService;
         }
 
-        public async Task InvokeAsync(HttpContext context)
+        public async Task InvokeAsync(HttpContext context, IServiceProvider serviceProvider)
         {
+            using var scope = serviceProvider.CreateScope();
             if (_protectedUrls.Any(url => context.Request.Path.StartsWithSegments(url)))
             {
                 // Check for API Key in the request header
@@ -29,7 +28,11 @@ namespace FileProcessor.Middlewares
                     return;
                 }
 
-                if (!_apiKeyService.IsValidApiKey(extractedApiKey))
+                var apiKeyService = scope.ServiceProvider.GetRequiredService<ApiKeyService>();
+
+                var isValid = await apiKeyService.IsValidApiKeyAsync(extractedApiKey);
+
+                if (!isValid)
                 {
                     context.Response.StatusCode = 403; // Forbidden
                     await context.Response.WriteAsync(Constants.Messages.InvalidApiKey);

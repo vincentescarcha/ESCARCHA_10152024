@@ -26,11 +26,11 @@ namespace FileProcessor.Controllers
         [HttpPost("generate-api-key")]
         [ProducesResponseType(typeof(ApiKeyResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Error), StatusCodes.Status500InternalServerError)]
-        public IActionResult GenerateApiKey()
+        public async Task<IActionResult> GenerateApiKey()
         {
             try
             {
-                var apiKey = _apiKeyService.GenerateApiKey();
+                var apiKey = await _apiKeyService.GenerateApiKeyAsync();
                 var response = new ApiKeyResponse
                 {
                     ApiKey = apiKey,

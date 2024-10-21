@@ -1,35 +1,53 @@
-﻿namespace FileProcessor.Services
+﻿using FileProcessor.Data;
+using Microsoft.EntityFrameworkCore;
+
+namespace FileProcessor.Services
 {
     public class ApiKeyService
     {
-        // Store api keys in-memory instead of database
-        private readonly Dictionary<string, DateTime> _apiKeys = new();
+        private readonly FileProcessorDbContext _context;
 
-        public string GenerateApiKey()
+        public ApiKeyService(FileProcessorDbContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<string> GenerateApiKeyAsync()
         {
             var apiKey = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
-            // Set expiration for 1 hour
-            _apiKeys[apiKey] = DateTime.UtcNow.AddHours(1); 
+            var expiration = DateTime.UtcNow.AddHours(1);
+
+            var newApiKey = new ApiKey
+            {
+                Key = apiKey,
+                Expiration = expiration
+            };
+
+            _context.ApiKeys.Add(newApiKey);
+            await _context.SaveChangesAsync();
+
             return apiKey;
         }
 
-        public bool IsValidApiKey(string apiKey)
+        public async Task<bool> IsValidApiKeyAsync(string apiKey)
         {
-            var isValid = false;
-            if (_apiKeys.TryGetValue(apiKey, out var expiration))
+            var apiKeyEntity = await _context.ApiKeys
+                .FirstOrDefaultAsync(k => k.Key == apiKey);
+
+            if (apiKeyEntity != null)
             {
-                if (DateTime.UtcNow < expiration)
+                if (DateTime.UtcNow < apiKeyEntity.Expiration)
                 {
-                    isValid = true; 
+                    return true;
                 }
                 else
                 {
                     // Remove expired key
-                    _apiKeys.Remove(apiKey); 
+                    _context.ApiKeys.Remove(apiKeyEntity);
+                    await _context.SaveChangesAsync();
                 }
             }
-            return isValid; 
+            return false;
         }
-
     }
 }

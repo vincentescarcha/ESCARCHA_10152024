@@ -1,7 +1,9 @@
 
+using FileProcessor.Data;
 using FileProcessor.Middlewares;
 using FileProcessor.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 
@@ -13,8 +15,12 @@ namespace FileProcessor
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            // Configure the DbContext
+            builder.Services.AddDbContext<FileProcessorDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
             // Add services to the container.
-            builder.Services.AddSingleton<ApiKeyService>();
+            builder.Services.AddScoped<ApiKeyService>();
             builder.Services.AddSingleton<FileProcessingService>();
             builder.Services.AddTransient<CsvFileProcessor>();
             builder.Services.AddTransient<JsonFileProcessor>();
