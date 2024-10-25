@@ -24,6 +24,18 @@ namespace FileProcessor
             builder.Services.AddSingleton<FileProcessingService>();
             builder.Services.AddTransient<CsvFileProcessor>();
             builder.Services.AddTransient<JsonFileProcessor>();
+            builder.Services.AddTransient<ProductServices>();
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAngularApp", policy =>
+                {
+                    policy.WithOrigins("http://localhost:4200") // Angular app URL
+                          .AllowAnyHeader()
+                          .AllowAnyMethod()
+                          .AllowCredentials(); // Allow cookies if needed
+                });
+            });
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -75,6 +87,7 @@ namespace FileProcessor
             app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseMiddleware<ApiKeyMiddleware>();
 
+            app.UseCors("AllowAngularApp"); // Apply the CORS policy
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
